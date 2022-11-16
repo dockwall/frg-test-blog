@@ -30,14 +30,14 @@ const getCurrentTimeString = () => {
 
 const onUpdateButtonClick = (e) => {
     e.target.textContent = 'Отменить редактирование';
-    renderForm(e.target.parentNode);
+    renderForm(e.target.parentNode.parentNode);
 
     e.target.removeEventListener('click', onUpdateButtonClick);
     e.target.addEventListener('click', onCancelButtonClick);
 };
 
 const onCancelButtonClick = (e) => {
-    e.target.parentNode.querySelector('article').remove();
+    e.target.parentNode.parentNode.querySelector('article').remove();
 
     disableUpdateButton(e.target);
 };
