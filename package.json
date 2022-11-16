@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/dockwall/frg-test-blog/issues"
   },
-  "homepage": "https://github.com/dockwall/frg-test-blog#readme"
+  "homepage": "https://github.com/dockwall/frg-test-blog#readme",
+  "devDependencies": {
+    "webpack": "^5.75.0"
+  }
 }
