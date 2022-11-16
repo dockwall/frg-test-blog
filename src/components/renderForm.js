@@ -15,6 +15,7 @@ const formConfig = {
             const text = formData.get('post-text');
 
             post.renderPost(title, text);
+            e.target.reset();
         }
     },
     updating: {
