@@ -7,7 +7,9 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
-    <div id="container" class="container"></div>
+    <section id="container" class="container">
+      <section id="posts-list" class="posts-list"></section>
+    </section>
     <template>
       <article class="form">
         <form>
@@ -24,6 +26,16 @@
           <button type="submit"></button>
         </form>
       </article>
+      <div class="post">
+        <div class="post-content">
+          <h2 class="post-title"></h2>
+          <p class="post-text"></p>
+        </div>
+        <div class="post-time">
+          <span class="post-create-time"></span>
+          <span class="post-update-time"></span>
+        </div>
+      </div>
     </template>
   </body>
 </html>
