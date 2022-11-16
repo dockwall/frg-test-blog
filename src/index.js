@@ -1,1 +1,3 @@
-console.log('start!')
+'use strict'
+
+import './styles/main.scss'
