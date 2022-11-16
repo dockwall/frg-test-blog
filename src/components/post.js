@@ -29,11 +29,19 @@ const getCurrentTimeString = () => {
 }
 
 const onUpdateButtonClick = (e) => {
-    console.log(e.target.parentNode);
     e.target.textContent = 'Отменить редактирование';
 
     renderForm(e.target.parentNode)
 
+}
+
+const updatePost = function (post, title, text) {
+    post.querySelector('.post-title').textContent = title;
+    post.querySelector('.post-text').textContent = text;
+    post.querySelector('.post-update-button').textContent = 'Редактировать';
+    post.querySelector('.post-update-time').textContent = `Изменен в ${getCurrentTimeString()}`
+
+    post.querySelector('article').remove();
 }
 
 const renderPost = function (title, text) {
@@ -49,6 +57,7 @@ const renderPost = function (title, text) {
 
 const post = {
     renderPost,
+    updatePost
 };
 
 export default post;
