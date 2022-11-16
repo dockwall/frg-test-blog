@@ -1,4 +1,5 @@
 import constants from "./constants";
+import renderForm from "./renderForm";
 
 // Helper fn to generate a new post by template
 
@@ -27,18 +28,49 @@ const getCurrentTimeString = () => {
     return `${currentDate.slice(0, 3).join('.')} в ${currentDate.slice(3).join(':')}`;
 }
 
-const renderPost = (title, text) => {
+const onUpdateButtonClick = (e) => {
+    e.target.textContent = 'Отменить редактирование';
+    renderForm(e.target.parentNode);
+
+    e.target.removeEventListener('click', onUpdateButtonClick);
+    e.target.addEventListener('click', onCancelButtonClick);
+};
+
+const onCancelButtonClick = (e) => {
+    e.target.parentNode.querySelector('article').remove();
+
+    disableUpdateButton(e.target);
+};
+
+const updatePost = function (post, title, text) {
+    post.querySelector('.post-title').textContent = title;
+    post.querySelector('.post-text').textContent = text;
+    post.querySelector('.post-update-time').textContent = `Изменен в ${getCurrentTimeString()}`;
+    post.querySelector('article').remove();
+
+    disableUpdateButton(post.querySelector('.post-update-button'));
+};
+
+const disableUpdateButton = (button) => {
+    button.textContent = 'Редактировать';
+    button.removeEventListener('click', onCancelButtonClick);
+    button.addEventListener('click', onUpdateButtonClick);
+}
+
+const renderPost = function (title, text) {
     const [post, postTitle, postText, creatingTime] = createPost();
 
     postTitle.textContent = title;
     postText.textContent = text;
     creatingTime.textContent = `Создан ${getCurrentTimeString()}`
+    post.querySelector('button').addEventListener('click', onUpdateButtonClick);
 
     constants.postsList.prepend(post);
 };
 
 const post = {
     renderPost,
+    updatePost
 };
 
 export default post;

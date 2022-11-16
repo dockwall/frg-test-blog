@@ -6,6 +6,7 @@ const formConfig = {
         buttonText: 'Отправить пост',
         titleLabel: 'Напишите заголовок поста',
         textLabel: 'Напишите текст поста',
+
         onSubmit(e) {
             e.preventDefault();
 
@@ -17,9 +18,21 @@ const formConfig = {
         }
     },
     updating: {
-        buttonText: 'Редактировать пост',
+        buttonText: 'Обновить пост',
         titleLabel: 'Напишите новый заголовок поста',
         textLabel: 'Напишите новый текст поста',
+
+        onSubmit(e) {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const title = formData.get('post-title');
+            const text = formData.get('post-text');
+
+            const currentPost = e.target.parentNode.parentNode;
+
+            post.updatePost(currentPost, title, text);
+        }
     }
 };
 
@@ -46,7 +59,12 @@ const renderForm = (parent, formType = 'updating') => {
     textLabel.textContent = currentConfig.textLabel;
     form.addEventListener('submit', currentConfig.onSubmit);
 
-    parent.prepend(form);
+    if (formType === 'creating') {
+        parent.prepend(form);
+    } else if (formType === 'updating') {
+        parent.append(form);
+    }
+
 };
 
 export default renderForm;
