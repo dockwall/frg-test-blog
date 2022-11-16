@@ -1,6 +1,4 @@
-import constants from "./constants"
-
-
+import constants from "./constants";
 
 const formConfig = {
     creating: {
@@ -13,7 +11,7 @@ const formConfig = {
         titleLabel: 'Напишите новый заголовок поста',
         textLabel: 'Напишите новый текст поста',
     }
-}
+};
 
 // Helper fn to generate a new form by template
 
@@ -23,13 +21,13 @@ const createForm = () => {
     const titleLabel = form.querySelector('.form-title-input label');
     const textLabel = form.querySelector('.form-text-input label');
 
-    return [form, submitButton, titleLabel, textLabel]
-}
+    return [form, submitButton, titleLabel, textLabel];
+};
 
 // In render fn: form type represents config - creating or updating
 
 const renderForm = (parent, formType) => {
-    let [form, submitButton, titleLabel, textLabel] = createForm()
+    const [form, submitButton, titleLabel, textLabel] = createForm();
 
     const currentConfig = formConfig[formType];
 
@@ -37,7 +35,7 @@ const renderForm = (parent, formType) => {
     titleLabel.textContent = currentConfig.titleLabel;
     textLabel.textContent = currentConfig.textLabel;
 
-    parent.append(form);
+    parent.prepend(form);
 };
 
 export default renderForm;
