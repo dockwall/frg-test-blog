@@ -7,6 +7,23 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
-    <div class="container"></div>
+    <div id="container" class="container"></div>
+    <template>
+      <article class="form">
+        <form>
+          <fieldset class="form-title-input">
+            <label></label>
+            <input type="text" placeholder="Привет!" />
+          </fieldset>
+          <fieldset class="form-text-input">
+            <label></label>
+            <textarea
+              placeholder="Выполнил тестовое задание для Frank RG!"
+            ></textarea>
+          </fieldset>
+          <button type="submit"></button>
+        </form>
+      </article>
+    </template>
   </body>
 </html>
