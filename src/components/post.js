@@ -1,4 +1,5 @@
 import constants from "./constants";
+import renderForm from "./renderForm";
 
 // Helper fn to generate a new post by template
 
@@ -27,11 +28,15 @@ const getCurrentTimeString = () => {
     return `${currentDate.slice(0, 3).join('.')} в ${currentDate.slice(3).join(':')}`;
 }
 
-const onUpdateButtonClick = () => {
-    console.log(1);
+const onUpdateButtonClick = (e) => {
+    console.log(e.target.parentNode);
+    e.target.textContent = 'Отменить редактирование';
+
+    renderForm(e.target.parentNode)
+
 }
 
-const renderPost = (title, text) => {
+const renderPost = function (title, text) {
     const [post, postTitle, postText, creatingTime] = createPost();
 
     postTitle.textContent = title;
