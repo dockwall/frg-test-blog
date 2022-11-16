@@ -1,3 +1,9 @@
 import constants from "./constants"
 
-const formContainer = document.createElement('div')
+const form = constants.formTemplate.cloneNode(true);
+
+const createForm = (parent) => {
+    parent.append(form)
+}
+
+export default createForm;
