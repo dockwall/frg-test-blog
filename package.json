@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/dockwall/frg-test-blog#readme",
   "devDependencies": {
-    "webpack": "^5.75.0"
+    "webpack": "^5.75.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.1"
   }
 }
