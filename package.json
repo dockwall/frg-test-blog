@@ -1,0 +1,20 @@
+{
+  "name": "frg-test-blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dockwall/frg-test-blog.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dockwall/frg-test-blog/issues"
+  },
+  "homepage": "https://github.com/dockwall/frg-test-blog#readme"
+}
