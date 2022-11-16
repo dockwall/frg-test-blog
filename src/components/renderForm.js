@@ -1,4 +1,5 @@
 import constants from "./constants";
+import post from "./post";
 
 const formConfig = {
     creating: {
@@ -7,6 +8,12 @@ const formConfig = {
         textLabel: 'Напишите текст поста',
         onSubmit(e) {
             e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const title = formData.get('post-title');
+            const text = formData.get('post-text');
+
+            post.renderPost(title, text);
         }
     },
     updating: {
