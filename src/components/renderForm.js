@@ -59,7 +59,12 @@ const renderForm = (parent, formType = 'updating') => {
     textLabel.textContent = currentConfig.textLabel;
     form.addEventListener('submit', currentConfig.onSubmit);
 
-    parent.prepend(form);
+    if (formType === 'creating') {
+        parent.prepend(form);
+    } else if (formType === 'updating') {
+        parent.append(form);
+    }
+
 };
 
 export default renderForm;
