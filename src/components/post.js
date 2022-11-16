@@ -27,12 +27,17 @@ const getCurrentTimeString = () => {
     return `${currentDate.slice(0, 3).join('.')} в ${currentDate.slice(3).join(':')}`;
 }
 
+const onUpdateButtonClick = () => {
+    console.log(1);
+}
+
 const renderPost = (title, text) => {
     const [post, postTitle, postText, creatingTime] = createPost();
 
     postTitle.textContent = title;
     postText.textContent = text;
     creatingTime.textContent = `Создан ${getCurrentTimeString()}`
+    post.querySelector('button').addEventListener('click', onUpdateButtonClick);
 
     constants.postsList.prepend(post);
 };
