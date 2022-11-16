@@ -30,7 +30,7 @@ const formConfig = {
             const title = formData.get('post-title');
             const text = formData.get('post-text');
 
-            const currentPost = e.target.parentNode.parentNode;
+            const currentPost = e.target.parentNode.parentNode.parentNode;
 
             post.updatePost(currentPost, title, text);
         }
