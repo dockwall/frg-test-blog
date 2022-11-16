@@ -19,6 +19,7 @@
   "homepage": "https://github.com/dockwall/frg-test-blog#readme",
   "devDependencies": {
     "css-loader": "^6.7.2",
+    "html-webpack-plugin": "^5.5.0",
     "sass": "^1.56.1",
     "sass-loader": "^13.2.0",
     "style-loader": "^3.3.1",

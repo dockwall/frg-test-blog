@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -10,9 +11,18 @@ module.exports = {
         filename: '[name].js'
     },
     module: {
-        rules: {
-            test: /\.scss$/,
-            use: ['style-loader', 'scc-loader', 'sass-loader']
-        }
-    }
+        rules: [
+            {
+                test: /\.scss$/,
+                use: ['style-loader', 'css-loader', 'sass-loader']
+            }
+        ]
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            title: 'Frank RG Test Task - Blog',
+            filename: 'index.html',
+            template: 'src/index.html'
+        })
+    ]
 }
