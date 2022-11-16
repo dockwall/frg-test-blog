@@ -4,10 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack serve",
-    "build-dev": "webpack",
-    "build-prod": "webpack --node-env=production",
-    "clear": "rd /s /q dist"
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
