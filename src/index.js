@@ -1,6 +1,6 @@
 import './styles/main.scss';
 import renderForm from './components/renderForm';
-import { renderLocalStoragePost } from './components/post';
+import { renderPostFromLocalStorage } from './components/post';
 
 const container = document.getElementById('container');
 
@@ -8,4 +8,4 @@ const container = document.getElementById('container');
 renderForm(container, 'creating');
 
 // This function checks localStorage, if there are saved posts - they will be rendered first
-renderLocalStoragePost();
+renderPostFromLocalStorage();

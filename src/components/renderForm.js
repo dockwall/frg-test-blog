@@ -1,5 +1,6 @@
 import { formTemplate } from "./constants";
 import { renderPost, updatePost } from "./post";
+import { getCurrentTimeString } from "./helpers";
 
 const formConfig = {
     creating: {
@@ -11,10 +12,15 @@ const formConfig = {
             e.preventDefault();
 
             const formData = new FormData(e.target);
-            const title = formData.get('post-title');
-            const text = formData.get('post-text');
 
-            renderPost(title, text);
+            const postData = {
+                title: formData.get('post-title'),
+                text: formData.get('post-text'),
+                creatingTime: `Создан ${getCurrentTimeString()}`,
+                updatingTime: ''
+            };
+
+            renderPost(postData);
             e.target.reset();
         }
     },
