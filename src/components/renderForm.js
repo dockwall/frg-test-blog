@@ -63,6 +63,9 @@ const renderForm = (parent, formType = 'updating') => {
     if (formType === 'creating') {
         parent.prepend(form);
     } else if (formType === 'updating') {
+        form.querySelector('.form-title-input input').value = parent.querySelector('.post-title').textContent;
+        form.querySelector('.form-text-input textarea').value = parent.querySelector('.post-text').textContent;
+
         parent.append(form);
     }
 
