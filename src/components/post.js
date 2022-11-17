@@ -42,6 +42,10 @@ const onCancelButtonClick = (e) => {
     disableUpdateButton(e.target);
 };
 
+const onDeleteButtonClick = (e) => {
+    e.target.parentNode.parentNode.remove();
+};
+
 const updatePost = function (post, title, text) {
     post.querySelector('.post-title').textContent = title;
     post.querySelector('.post-text').textContent = text;
@@ -63,8 +67,8 @@ const renderPost = function (title, text) {
     postTitle.textContent = title;
     postText.textContent = text;
     creatingTime.textContent = `Создан ${getCurrentTimeString()}`
-    post.querySelector('button').addEventListener('click', onUpdateButtonClick);
-
+    post.querySelector('.post-update-button').addEventListener('click', onUpdateButtonClick);
+    post.querySelector('.post-delete-button').addEventListener('click', onDeleteButtonClick);
     constants.postsList.prepend(post);
 };
 
