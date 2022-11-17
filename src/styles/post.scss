@@ -43,8 +43,11 @@
     .post-buttons {
       margin-bottom: 10px;
 
-      .post-update-button {
+      button {
         margin-right: 5px;
+      }
+
+      .post-update-button {
         margin-bottom: 5px;
       }
     }
