@@ -61,6 +61,12 @@ const updatePost = function (post, title, text) {
     post.querySelector('article').remove();
 
     disableUpdateButton(post.querySelector('.post-update-button'));
+
+    const currentPostID = post.querySelector('.post').id
+    const rawLocalCopy = localStorage.getItem(currentPostID);
+    const localCopyObject = JSON.parse(rawLocalCopy);
+    localCopyObject.updatingTime = post.querySelector('.post-update-time').textContent;
+    localStorage.setItem(currentPostID, JSON.stringify(localCopyObject));
 };
 
 const disableUpdateButton = (button) => {
@@ -76,6 +82,7 @@ const createPost = () => {
     const postTitle = post.querySelector('h2');
     const postText = post.querySelector('p');
     const creatingTime = post.querySelector('.post-create-time');
+    const updatingTime = post.querySelector('.post-update-time');
     const updateButton = post.querySelector('.post-update-button');
     const deleteButton = post.querySelector('.post-delete-button');
     const toggleButton = post.querySelector('.post-toggle-visibility-button')
@@ -84,15 +91,34 @@ const createPost = () => {
     updateButton.style.display = 'none';
     deleteButton.style.display = 'none';
 
-    return { post, postTitle, postText, creatingTime, updateButton, deleteButton, toggleButton };
+    return {
+        post,
+        postTitle,
+        postText,
+        creatingTime,
+        updatingTime,
+        updateButton,
+        deleteButton,
+        toggleButton
+    };
 };
 
-const renderPost = function (title, text, isLocalPost = false) {
-    const { post, postTitle, postText, creatingTime, updateButton, deleteButton, toggleButton } = createPost();
+const renderPost = function (title, text, isLocalPost = false, createTime, updateTime, id) {
+    const {
+        post,
+        postTitle,
+        postText,
+        creatingTime,
+        updatingTime,
+        updateButton,
+        deleteButton,
+        toggleButton
+    } = createPost();
 
     postTitle.textContent = title;
     postText.textContent = text;
-    creatingTime.textContent = `Создан ${getCurrentTimeString()}`;
+    creatingTime.textContent = (!isLocalPost) ? `Создан ${getCurrentTimeString()}` : createTime;
+    updatingTime.textContent = (!isLocalPost) ? '' : updateTime;
 
     updateButton.addEventListener('click', onUpdateButtonClick);
     deleteButton.addEventListener('click', onDeleteButtonClick);
@@ -100,13 +126,17 @@ const renderPost = function (title, text, isLocalPost = false) {
 
     if (!isLocalPost) {
         const pseudoID = String(Date.now());
+        post.id = pseudoID;
 
         const currentPostData = {
             title: title,
-            text: text
+            text: text,
+            creatingTime: creatingTime.textContent
         };
 
         localStorage.setItem(pseudoID, JSON.stringify(currentPostData));
+    } else {
+        post.id = id;
     }
 
     constants.postsList.prepend(post);
@@ -118,8 +148,8 @@ const renderLocalStoragePost = () => {
     postsID.forEach(id => {
         if (document.getElementById(id)) return;
 
-        const { title, text } = JSON.parse(localStorage.getItem(id));
-        renderPost(title, text, true);
+        const { title, text, creatingTime, updatingTime } = JSON.parse(localStorage.getItem(id));
+        renderPost(title, text, true, creatingTime, updatingTime, id);
     })
 
 };
