@@ -1,6 +1,9 @@
-import constants from "./constants";
-import post from "./post";
+import { formTemplate } from "./constants";
+import { renderPost, updatePost } from "./post";
+import { getCurrentTimeString, getCurrentPostFromChild } from "./helpers";
 
+
+// Form config for renderForm function (second argument)
 const formConfig = {
     creating: {
         buttonText: 'Отправить пост',
@@ -11,10 +14,15 @@ const formConfig = {
             e.preventDefault();
 
             const formData = new FormData(e.target);
-            const title = formData.get('post-title');
-            const text = formData.get('post-text');
 
-            post.renderPost(title, text);
+            const postData = {
+                title: formData.get('post-title'),
+                text: formData.get('post-text'),
+                creatingTime: `Создан ${getCurrentTimeString()}`,
+                updatingTime: ''
+            };
+
+            renderPost(postData);
             e.target.reset();
         }
     },
@@ -30,29 +38,31 @@ const formConfig = {
             const title = formData.get('post-title');
             const text = formData.get('post-text');
 
-            const currentPost = e.target.parentNode.parentNode.parentNode;
+            const currentPost = getCurrentPostFromChild(e);
 
-            post.updatePost(currentPost, title, text);
+            updatePost(currentPost, title, text);
         }
     }
 };
 
-// Helper fn to generate a new form by template
+// Helper to generate a new form by template
 
-const createForm = () => {
-    const form = constants.formTemplate.cloneNode(true);
+const createFormByTemplate = () => {
+    const form = formTemplate.cloneNode(true);
+
+    return form;
+};
+
+// This function renders creating or updating form (depends on the second argument)
+
+const renderForm = (parent, formType = 'updating') => {
+    const form = createFormByTemplate();
+
     const submitButton = form.querySelector('button');
     const titleLabel = form.querySelector('.form-title-input label');
     const textLabel = form.querySelector('.form-text-input label');
 
-    return [form, submitButton, titleLabel, textLabel];
-};
-
-// In render fn: form type represents config - creating or updating
-
-const renderForm = (parent, formType = 'updating') => {
-    const [form, submitButton, titleLabel, textLabel] = createForm();
-
+    // Config for current render
     const currentConfig = formConfig[formType];
 
     submitButton.textContent = currentConfig.buttonText;
@@ -60,11 +70,14 @@ const renderForm = (parent, formType = 'updating') => {
     textLabel.textContent = currentConfig.textLabel;
     form.addEventListener('submit', currentConfig.onSubmit);
 
+
+    // Final customization - styles and form fields first values
     if (formType === 'creating') {
         form.classList.add('creating-form');
         parent.prepend(form);
     } else if (formType === 'updating') {
         form.classList.add('updating-form');
+
         form.querySelector('.form-title-input input').value = parent.querySelector('.post-title').textContent;
         form.querySelector('.form-text-input textarea').value = parent.querySelector('.post-text').textContent;
 

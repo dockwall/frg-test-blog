@@ -26,29 +26,30 @@
       }
     }
 
-    .post-time {
-      align-self: flex-end;
-      color: gray;
-      padding: 10px 0;
-
-      p {
-        margin: 0;
-      }
-
-      .post-create-time {
-        margin-bottom: 10px;
-      }
-    }
-
-    .post-buttons {
-      margin-bottom: 10px;
+    .post-footer {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
 
       button {
+        margin: 5px 0;
         margin-right: 5px;
       }
 
-      .post-update-button {
-        margin-bottom: 5px;
+      .post-time {
+        align-self: flex-end;
+        color: gray;
+        padding: 10px 0;
+
+        p {
+          margin: 0;
+        }
+
+        .post-create-time {
+          margin-bottom: 10px;
+        }
       }
     }
   }
