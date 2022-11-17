@@ -32,7 +32,9 @@ const onCancelButtonClick = (e) => {
 };
 
 const onDeleteButtonClick = (e) => {
+    const currentID = e.target.parentNode.parentNode.id;
     e.target.parentNode.parentNode.remove();
+    localStorage.removeItem(currentID);
 };
 
 const onToggleButtonClick = (e) => {
@@ -61,6 +63,16 @@ const updatePost = function (post, title, text) {
     post.querySelector('article').remove();
 
     disableUpdateButton(post.querySelector('.post-update-button'));
+
+    const currentPostID = post.querySelector('.post').id
+    const rawLocalCopy = localStorage.getItem(currentPostID);
+    const localCopyObject = JSON.parse(rawLocalCopy);
+
+    localCopyObject.updatingTime = post.querySelector('.post-update-time').textContent;
+    localCopyObject.text = text;
+    localCopyObject.title = title;
+
+    localStorage.setItem(currentPostID, JSON.stringify(localCopyObject));
 };
 
 const disableUpdateButton = (button) => {
@@ -76,29 +88,82 @@ const createPost = () => {
     const postTitle = post.querySelector('h2');
     const postText = post.querySelector('p');
     const creatingTime = post.querySelector('.post-create-time');
+    const updatingTime = post.querySelector('.post-update-time');
+    const updateButton = post.querySelector('.post-update-button');
+    const deleteButton = post.querySelector('.post-delete-button');
+    const toggleButton = post.querySelector('.post-toggle-visibility-button')
 
-    return [post, postTitle, postText, creatingTime];
+    postText.style.display = 'none';
+    updateButton.style.display = 'none';
+    deleteButton.style.display = 'none';
+
+    return {
+        post,
+        postTitle,
+        postText,
+        creatingTime,
+        updatingTime,
+        updateButton,
+        deleteButton,
+        toggleButton
+    };
 };
 
-const renderPost = function (title, text) {
-    const [post, postTitle, postText, creatingTime] = createPost();
+const renderPost = function (title, text, isLocalPost = false, createTime, updateTime, id) {
+    const {
+        post,
+        postTitle,
+        postText,
+        creatingTime,
+        updatingTime,
+        updateButton,
+        deleteButton,
+        toggleButton
+    } = createPost();
 
     postTitle.textContent = title;
     postText.textContent = text;
-    creatingTime.textContent = `Создан ${getCurrentTimeString()}`
-    post.querySelector('.post-update-button').addEventListener('click', onUpdateButtonClick);
-    post.querySelector('.post-delete-button').addEventListener('click', onDeleteButtonClick);
-    post.querySelector('.post-toggle-visibility-button').addEventListener('click', onToggleButtonClick);
+    creatingTime.textContent = (!isLocalPost) ? `Создан ${getCurrentTimeString()}` : createTime;
+    updatingTime.textContent = (!isLocalPost) ? '' : updateTime;
 
-    postText.style.display = 'none';
-    post.querySelector('.post-update-button').style.display = 'none'
-    post.querySelector('.post-delete-button').style.display = 'none'
+    updateButton.addEventListener('click', onUpdateButtonClick);
+    deleteButton.addEventListener('click', onDeleteButtonClick);
+    toggleButton.addEventListener('click', onToggleButtonClick);
+
+    if (!isLocalPost) {
+        const pseudoID = String(Date.now());
+        post.id = pseudoID;
+
+        const currentPostData = {
+            title: title,
+            text: text,
+            creatingTime: creatingTime.textContent
+        };
+
+        localStorage.setItem(pseudoID, JSON.stringify(currentPostData));
+    } else {
+        post.id = id;
+    }
+
     constants.postsList.prepend(post);
+};
+
+const renderLocalStoragePost = () => {
+    const postsID = Object.keys(localStorage);
+
+    postsID.forEach(id => {
+        if (document.getElementById(id)) return;
+
+        const { title, text, creatingTime, updatingTime } = JSON.parse(localStorage.getItem(id));
+        renderPost(title, text, true, creatingTime, updatingTime, id);
+    })
+
 };
 
 const post = {
     renderPost,
-    updatePost
+    updatePost,
+    renderLocalStoragePost
 };
 
 export default post;
