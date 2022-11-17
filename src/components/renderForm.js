@@ -1,4 +1,4 @@
-import constants from "./constants";
+import { formTemplate } from "./constants";
 import { renderPost, updatePost } from "./post";
 
 const formConfig = {
@@ -40,7 +40,7 @@ const formConfig = {
 // Helper fn to generate a new form by template
 
 const createForm = () => {
-    const form = constants.formTemplate.cloneNode(true);
+    const form = formTemplate.cloneNode(true);
     const submitButton = form.querySelector('button');
     const titleLabel = form.querySelector('.form-title-input label');
     const textLabel = form.querySelector('.form-text-input label');

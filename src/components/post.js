@@ -1,4 +1,4 @@
-import constants from "./constants";
+import { postTemplate, postsList } from "./constants";
 import renderForm from "./renderForm";
 
 // Helper fn to get a current time that seems like string
@@ -84,7 +84,7 @@ const disableUpdateButton = (button) => {
 // Helper fn to generate a new post by template
 
 const createPost = () => {
-    const post = constants.postTemplate.cloneNode(true);
+    const post = postTemplate.cloneNode(true);
     const postTitle = post.querySelector('h2');
     const postText = post.querySelector('p');
     const creatingTime = post.querySelector('.post-create-time');
@@ -145,7 +145,7 @@ const renderPost = function (title, text, isLocalPost = false, createTime, updat
         post.id = id;
     }
 
-    constants.postsList.prepend(post);
+    postsList.prepend(post);
 };
 
 const renderLocalStoragePost = () => {
