@@ -8,7 +8,8 @@
     display: flex;
     flex-direction: column;
     padding: 10px 20px;
-    margin: 10px 20px;
+    padding-bottom: 0;
+    margin: 20px;
     margin-bottom: 0px;
     border-radius: 10px;
     word-wrap: break-word;
@@ -40,6 +41,8 @@
     }
 
     .post-buttons {
+      margin-bottom: 10px;
+
       .post-update-button {
         margin-right: 5px;
         margin-bottom: 5px;
