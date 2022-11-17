@@ -166,4 +166,8 @@ const post = {
     renderLocalStoragePost
 };
 
-export default post;
+export {
+    renderPost,
+    updatePost,
+    renderLocalStoragePost
+};

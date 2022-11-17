@@ -1,5 +1,5 @@
 import constants from "./constants";
-import post from "./post";
+import { renderPost, updatePost } from "./post";
 
 const formConfig = {
     creating: {
@@ -14,7 +14,7 @@ const formConfig = {
             const title = formData.get('post-title');
             const text = formData.get('post-text');
 
-            post.renderPost(title, text);
+            renderPost(title, text);
             e.target.reset();
         }
     },
@@ -32,7 +32,7 @@ const formConfig = {
 
             const currentPost = e.target.parentNode.parentNode.parentNode;
 
-            post.updatePost(currentPost, title, text);
+            updatePost(currentPost, title, text);
         }
     }
 };
