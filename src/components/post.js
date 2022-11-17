@@ -32,7 +32,9 @@ const onCancelButtonClick = (e) => {
 };
 
 const onDeleteButtonClick = (e) => {
+    const currentID = e.target.parentNode.parentNode.id;
     e.target.parentNode.parentNode.remove();
+    localStorage.removeItem(currentID);
 };
 
 const onToggleButtonClick = (e) => {
@@ -65,7 +67,11 @@ const updatePost = function (post, title, text) {
     const currentPostID = post.querySelector('.post').id
     const rawLocalCopy = localStorage.getItem(currentPostID);
     const localCopyObject = JSON.parse(rawLocalCopy);
+
     localCopyObject.updatingTime = post.querySelector('.post-update-time').textContent;
+    localCopyObject.text = text;
+    localCopyObject.title = title;
+
     localStorage.setItem(currentPostID, JSON.stringify(localCopyObject));
 };
 
