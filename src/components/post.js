@@ -73,7 +73,7 @@ const updatePost = function (post, newTitle, newText) {
     const currentUpdateButton = post.querySelector('.post-update-button');
     disableUpdateButton(currentUpdateButton);
 
-    const currentPostID = post.querySelector('.post').id;
+    const currentPostID = post.id;
     const LocalCopyJSON = localStorage.getItem(currentPostID);
     const localCopyObject = JSON.parse(LocalCopyJSON);
 
