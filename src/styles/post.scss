@@ -26,6 +26,13 @@
       }
     }
 
+    .post-footer {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
     .post-time {
       align-self: flex-end;
       color: gray;

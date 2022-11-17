@@ -1,21 +1,12 @@
 import { postTemplate, postsList } from "./constants";
+import { getCurrentTimeString, getCurrentPostFromChild } from "./helpers";
 import renderForm from "./renderForm";
 
-// Helper fn to get a current time that seems like string
+// Post events handlers
 
-const getCurrentTimeString = () => {
-    const d = new Date();
-
-    let currentDate = [
-        '0' + d.getDate(),
-        '0' + (d.getMonth() + 1),
-        '' + d.getFullYear(),
-        '0' + d.getHours(),
-        '0' + d.getMinutes()
-    ].map(component => component.slice(-2));
-
-    return `${currentDate.slice(0, 3).join('.')} в ${currentDate.slice(3).join(':')}`;
-}
+const onToggleButtonClick = (e) => {
+    changeVisibility(e);
+};
 
 const onUpdateButtonClick = (e) => {
     e.target.textContent = 'Отменить редактирование';
@@ -27,30 +18,33 @@ const onUpdateButtonClick = (e) => {
 
 const onCancelButtonClick = (e) => {
     e.target.parentNode.parentNode.querySelector('article').remove();
-
     disableUpdateButton(e.target);
 };
 
 const onDeleteButtonClick = (e) => {
-    const currentID = e.target.parentNode.parentNode.id;
-    e.target.parentNode.parentNode.remove();
+    const currentPost = getCurrentPostFromChild(e);
+    const currentID = currentPost.id;
+
+    currentPost.remove();
     localStorage.removeItem(currentID);
 };
 
-const onToggleButtonClick = (e) => {
-    changeVisibility(e);
-};
+// This function changes visibility of a current post when toggle button clicked
 
 const changeVisibility = (e) => {
-    const postText = e.target.parentNode.parentNode.querySelector('.post-text');
-    const deleteButton = e.target.parentNode.querySelector('.post-delete-button');
-    const updateButton = e.target.parentNode.querySelector('.post-update-button');
-    const updateForm = e.target.parentNode.parentNode.querySelector('article');
+    const currentPost = getCurrentPostFromChild(e);
 
-    const newDisplayStyle = (deleteButton.style.display === 'none') ? '' : 'none';
+    const postText = currentPost.querySelector('.post-text');
+    const deleteButton = currentPost.querySelector('.post-delete-button');
+    const updateButton = currentPost.querySelector('.post-update-button');
+    const updateForm = currentPost.querySelector('article');
+
+    const newDisplayStyle = (postText.style.display === 'none') ? '' : 'none';
 
     [postText, deleteButton, updateButton].forEach(element => element.style.display = newDisplayStyle);
 
+    // Updating form is visible only if user clicked update button
+    // If it no exists, forEach throws an error
     if (updateForm) updateForm.style.display = newDisplayStyle;
 
     e.target.textContent = (newDisplayStyle === '') ? 'Скрыть пост' : 'Показать пост';
