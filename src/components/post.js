@@ -76,29 +76,58 @@ const createPost = () => {
     const postTitle = post.querySelector('h2');
     const postText = post.querySelector('p');
     const creatingTime = post.querySelector('.post-create-time');
+    const updateButton = post.querySelector('.post-update-button');
+    const deleteButton = post.querySelector('.post-delete-button');
+    const toggleButton = post.querySelector('.post-toggle-visibility-button')
 
-    return [post, postTitle, postText, creatingTime];
+    postText.style.display = 'none';
+    updateButton.style.display = 'none';
+    deleteButton.style.display = 'none';
+
+    return { post, postTitle, postText, creatingTime, updateButton, deleteButton, toggleButton };
 };
 
-const renderPost = function (title, text) {
-    const [post, postTitle, postText, creatingTime] = createPost();
+const renderPost = function (title, text, isLocalPost = false) {
+    const { post, postTitle, postText, creatingTime, updateButton, deleteButton, toggleButton } = createPost();
 
     postTitle.textContent = title;
     postText.textContent = text;
-    creatingTime.textContent = `Создан ${getCurrentTimeString()}`
-    post.querySelector('.post-update-button').addEventListener('click', onUpdateButtonClick);
-    post.querySelector('.post-delete-button').addEventListener('click', onDeleteButtonClick);
-    post.querySelector('.post-toggle-visibility-button').addEventListener('click', onToggleButtonClick);
+    creatingTime.textContent = `Создан ${getCurrentTimeString()}`;
 
-    postText.style.display = 'none';
-    post.querySelector('.post-update-button').style.display = 'none'
-    post.querySelector('.post-delete-button').style.display = 'none'
+    updateButton.addEventListener('click', onUpdateButtonClick);
+    deleteButton.addEventListener('click', onDeleteButtonClick);
+    toggleButton.addEventListener('click', onToggleButtonClick);
+
+    if (!isLocalPost) {
+        const pseudoID = String(Date.now());
+
+        const currentPostData = {
+            title: title,
+            text: text
+        };
+
+        localStorage.setItem(pseudoID, JSON.stringify(currentPostData));
+    }
+
     constants.postsList.prepend(post);
+};
+
+const renderLocalStoragePost = () => {
+    const postsID = Object.keys(localStorage);
+
+    postsID.forEach(id => {
+        if (document.getElementById(id)) return;
+
+        const { title, text } = JSON.parse(localStorage.getItem(id));
+        renderPost(title, text, true);
+    })
+
 };
 
 const post = {
     renderPost,
-    updatePost
+    updatePost,
+    renderLocalStoragePost
 };
 
 export default post;
